@@ -25,11 +25,14 @@ fun CalculatorScreen() {
                 .background(Color.Red)
                 .weight(1F)
         )
-        Divider(color = MaterialTheme.colorScheme.outline)
+        Divider(
+            color = MaterialTheme.colorScheme.outline,
+            modifier = Modifier.padding(vertical = dimensionResource(R.dimen.small))
+        )
         BoxWithConstraints(
             Modifier
                 .fillMaxWidth()
-                .padding(vertical = dimensionResource(R.dimen.small))
+                .weight(1.5F)
         ) {
             val smallSize = dimensionResource(R.dimen.small)
             val maxWidth = remember(this.maxWidth, smallSize) { maxWidth - (smallSize * 3) }
@@ -46,7 +49,7 @@ fun CalculatorScreen() {
                                 CalculatorButton(
                                     Modifier
                                         .width(maxWidth / 4)
-                                        .aspectRatio(1F), it
+                                        .weight(1F), it
                                 )
                             }
                         }

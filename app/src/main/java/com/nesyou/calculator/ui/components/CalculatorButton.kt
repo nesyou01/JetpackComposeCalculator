@@ -2,11 +2,13 @@ package com.nesyou.calculator.ui.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.nesyou.calculator.models.ButtonType
 import com.nesyou.calculator.models.CalculatorButton
 
@@ -39,11 +41,12 @@ fun CalculatorButton(modifier: Modifier = Modifier, button: CalculatorButton) {
                 is Int -> {
                     Icon(
                         painterResource(button.char),
-                        contentDescription = if (button.type is ButtonType.Action) button.type.action.name else null
+                        contentDescription = if (button.type is ButtonType.Action) button.type.action.name else null,
+                        modifier = Modifier.size(20.dp)
                     )
                 }
                 else -> {
-                    Text(button.char.toString())
+                    AutoResizeText(text = button.char.toString(), fontSizeRange = FontSizeRange(15.sp,32.sp))
                 }
             }
         }
