@@ -1,30 +1,36 @@
 package com.nesyou.calculator.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nesyou.calculator.R
 import com.nesyou.calculator.models.CalculatorButton
 import com.nesyou.calculator.ui.components.CalculatorButton
+import com.nesyou.calculator.ui.components.Input
 
 @Composable
-fun CalculatorScreen() {
+fun CalculatorScreen(vm: CalculatorViewModel = viewModel()) {
+    val state by vm.state.collectAsState()
     Column(
         modifier = Modifier
             .padding(horizontal = dimensionResource(R.dimen.normal))
     ) {
-        Box(
+        Column(
             Modifier
-                .background(Color.Red)
-                .weight(1F)
-        )
+                .weight(1F),
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.End
+        ) {
+            Input(state.textFiledValue)
+            Text(
+                state.result.let { if (it.isNotEmpty()) "=$it" else "" },
+            )
+        }
         Divider(
             color = MaterialTheme.colorScheme.outline,
             modifier = Modifier.padding(vertical = dimensionResource(R.dimen.small))
@@ -50,7 +56,9 @@ fun CalculatorScreen() {
                                     Modifier
                                         .width(maxWidth / 4)
                                         .weight(1F), it
-                                )
+                                ) {
+                                    vm(it)
+                                }
                             }
                         }
                     }

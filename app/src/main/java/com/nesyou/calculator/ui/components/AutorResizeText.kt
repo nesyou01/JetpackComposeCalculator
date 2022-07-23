@@ -11,9 +11,9 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun AutoResizeText(
+    modifier: Modifier = Modifier,
     text: String,
     fontSizeRange: FontSizeRange,
-    modifier: Modifier = Modifier,
     style: TextStyle = MaterialTheme.typography.bodyLarge,
 ) {
     var fontSizeValue by remember { mutableStateOf(fontSizeRange.max.value) }

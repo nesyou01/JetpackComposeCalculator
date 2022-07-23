@@ -1,7 +1,9 @@
 package com.nesyou.calculator.ui.components
 
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,7 +17,7 @@ import com.nesyou.calculator.models.CalculatorButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CalculatorButton(modifier: Modifier = Modifier, button: CalculatorButton) {
+fun CalculatorButton(modifier: Modifier = Modifier, button: CalculatorButton, onClick: () -> Unit) {
     val contentColor = when (button) {
         CalculatorButton.Clear,
         CalculatorButton.Remove -> MaterialTheme.colorScheme.primary
@@ -32,21 +34,24 @@ fun CalculatorButton(modifier: Modifier = Modifier, button: CalculatorButton) {
         color = backgroundColor,
         modifier = modifier,
         shape = MaterialTheme.shapes.extraLarge,
-        onClick = {}
+        onClick = onClick
     ) {
         Box(
             contentAlignment = Alignment.Center
         ) {
-            when (button.char) {
+            when (button.symbol) {
                 is Int -> {
                     Icon(
-                        painterResource(button.char),
+                        painterResource(button.symbol),
                         contentDescription = if (button.type is ButtonType.Action) button.type.action.name else null,
                         modifier = Modifier.size(20.dp)
                     )
                 }
                 else -> {
-                    AutoResizeText(text = button.char.toString(), fontSizeRange = FontSizeRange(15.sp,32.sp))
+                    AutoResizeText(
+                        text = button.symbol.toString(),
+                        fontSizeRange = FontSizeRange(15.sp, 32.sp),
+                    )
                 }
             }
         }
