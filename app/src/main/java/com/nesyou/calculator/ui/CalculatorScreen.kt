@@ -26,7 +26,9 @@ fun CalculatorScreen(vm: CalculatorViewModel = viewModel()) {
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.End
         ) {
-            Input(state.textFiledValue)
+            Input(state.textFiledValue) {
+                vm.onValueChanged(it)
+            }
             Text(
                 state.result.let { if (it.isNotEmpty()) "=$it" else "" },
             )

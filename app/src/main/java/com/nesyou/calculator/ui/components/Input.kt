@@ -12,7 +12,10 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 
 @Composable
-fun Input(value: TextFieldValue) {
+fun Input(
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+) {
     CompositionLocalProvider(
         LocalTextInputService provides null,
     ) {
