@@ -73,15 +73,8 @@ class CalculatorViewModel : ViewModel() {
 
     private fun calculateText(text: String): String {
         return try {
-            val o = DecimalFormat("0.#").format(
-                ExpressionBuilder(formattedString(text)).build()
-                    .evaluate()
-            )
-            if (o.isDigitsOnly()) {
-                o.toDouble().toString()
-            } else {
-                "∞"
-            }
+            return ExpressionBuilder(formattedString(text)).build()
+                .evaluate().toString()
         } catch (e: IllegalArgumentException) {
             e.printStackTrace()
             "Error"
@@ -112,10 +105,13 @@ class CalculatorViewModel : ViewModel() {
                 selection = TextRange(text.length)
             ),
             result = text.lastOrNull()
-                ?.let { if (it.isDigit() && !text.isDigitsOnly()) calculateText(text) else "" }
+                ?.let {
+                    if (it.isDigit() && !text.replace(".", "")
+                            .isDigitsOnly()
+                    ) calculateText(text) else ""
+                }
                 ?: ""
         )
 
     }
-
 }

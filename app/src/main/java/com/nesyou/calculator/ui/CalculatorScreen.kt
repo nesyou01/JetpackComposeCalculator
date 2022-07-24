@@ -6,7 +6,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nesyou.calculator.R
 import com.nesyou.calculator.models.CalculatorButton
@@ -43,23 +42,28 @@ fun CalculatorScreen(vm: CalculatorViewModel = viewModel()) {
                 .weight(1.5F)
         ) {
             val smallSize = dimensionResource(R.dimen.small)
-            val maxWidth = remember(this.maxWidth, smallSize) { maxWidth - (smallSize * 3) }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(smallSize)
-            ) {
-                CalculatorButton.Values.forEachIndexed { i, buttonList ->
-                    Surface(
-                        color = if (i == CalculatorButton.Values.size - 1) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.background,
-                        shape = MaterialTheme.shapes.extraLarge,
-                    ) {
-                        Column {
-                            buttonList.forEach {
-                                CalculatorButton(
-                                    Modifier
-                                        .width(maxWidth / 4)
-                                        .weight(1F), it
-                                ) {
-                                    vm(it)
+            val maxWidth = remember(
+                this.maxWidth,
+                smallSize
+            ) { maxWidth - (smallSize * (CalculatorButton.Values.size - 1)) }
+            Column {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(smallSize)
+                ) {
+                    CalculatorButton.Values.forEachIndexed { i, buttonList ->
+                        Surface(
+                            color = if (i == CalculatorButton.Values.size - 1) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.background,
+                            shape = MaterialTheme.shapes.extraLarge,
+                        ) {
+                            Column {
+                                buttonList.forEach {
+                                    CalculatorButton(
+                                        Modifier
+                                            .width(maxWidth / CalculatorButton.Values.size)
+                                            .weight(1F), it
+                                    ) {
+                                        vm(it)
+                                    }
                                 }
                             }
                         }
