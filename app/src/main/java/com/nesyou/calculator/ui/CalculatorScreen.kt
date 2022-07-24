@@ -45,22 +45,24 @@ fun CalculatorScreen(vm: CalculatorViewModel = viewModel()) {
             val maxWidth = remember(
                 this.maxWidth,
                 smallSize
-            ) { maxWidth - (smallSize * (CalculatorButton.Values.size - 1)) }
+            ) { maxWidth - (smallSize * (CalculatorButton.values.size - 1)) }
+            val width = remember(maxWidth) { maxWidth / CalculatorButton.values.size }
+            val height = remember(maxHeight) { maxHeight / 5 }
             Column {
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(smallSize)
                 ) {
-                    CalculatorButton.Values.forEachIndexed { i, buttonList ->
+                    CalculatorButton.values.forEachIndexed { i, buttonList ->
                         Surface(
-                            color = if (i == CalculatorButton.Values.size - 1) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.background,
+                            color = if (i == CalculatorButton.values.size - 1) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.background,
                             shape = MaterialTheme.shapes.extraLarge,
                         ) {
                             Column {
                                 buttonList.forEach {
                                     CalculatorButton(
                                         Modifier
-                                            .width(maxWidth / CalculatorButton.Values.size)
-                                            .weight(1F), it
+                                            .size(width, height),
+                                        button = it
                                     ) {
                                         vm(it)
                                     }

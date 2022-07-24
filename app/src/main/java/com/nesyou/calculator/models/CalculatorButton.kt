@@ -5,7 +5,6 @@ import com.nesyou.calculator.R
 sealed class CalculatorButton(
     val symbol: Any,
     val type: ButtonType,
-    val hidden: Boolean = false
 ) {
 
     object Number0 : CalculatorButton("0", ButtonType.Number)
@@ -51,7 +50,7 @@ sealed class CalculatorButton(
 
 
     companion object {
-        val Values = listOf(
+        val values = listOf(
             // First Column
             listOf(
                 Clear,

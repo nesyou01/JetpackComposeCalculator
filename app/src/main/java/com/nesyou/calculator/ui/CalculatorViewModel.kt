@@ -12,14 +12,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import net.objecthunter.exp4j.ExpressionBuilder
-import java.text.DecimalFormat
 
 class CalculatorViewModel : ViewModel() {
 
     private var _state = MutableStateFlow(CalculatorState())
     val state: StateFlow<CalculatorState> = _state.asStateFlow()
 
-    private val listOfButtons = CalculatorButton.Values.flatten()
+    private val listOfButtons = CalculatorButton.values.flatten()
 
     operator fun invoke(button: CalculatorButton) {
         viewModelScope.launch {
@@ -44,7 +43,9 @@ class CalculatorViewModel : ViewModel() {
             CalculatorButton.Clear -> clear()
             CalculatorButton.Remove -> remove()
             CalculatorButton.Expand -> {
-                // TODO: expand button
+                _state.value = _state.value.copy(
+                    expanded = !_state.value.expanded
+                )
             }
             CalculatorButton.Calculate -> calculate()
             else -> {
@@ -64,10 +65,12 @@ class CalculatorViewModel : ViewModel() {
     }
 
     private fun calculate() {
-        try {
-            changeTextValue(calculateText(_state.value.textFiledValue.text))
-        } catch (e: IllegalArgumentException) {
-            e.printStackTrace()
+        if (_state.value.textFiledValue.text.isNotEmpty()) {
+            try {
+                changeTextValue(calculateText(_state.value.textFiledValue.text))
+            } catch (e: IllegalArgumentException) {
+                e.printStackTrace()
+            }
         }
     }
 
